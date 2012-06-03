@@ -9,3 +9,20 @@ namespace AdamQuaile\PrettyRest;
 class Document {
 
 }
+
+$doc = new Document;
+
+$doc->getTitle();
+$doc->getAuthor();
+
+/*
+
+
+<h1>{{title}}</h1>
+{{#section1}}
+formatting mustache etc
+{{/section1}}
+
+
+ *
+ */

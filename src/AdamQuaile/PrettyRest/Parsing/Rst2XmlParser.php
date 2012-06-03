@@ -23,9 +23,6 @@ class Rst2XmlParser implements ParserInterface {
     {
 
         $realPath = realpath($filename);
-        if (!$realPath) {
-            throw new \RuntimeException("Could not determine the full path to the given file");
-        }
         if (!file_exists($realPath)) {
             throw new \InvalidArgumentException(sprintf("File does not exist: %s", $realPath));
         }
@@ -35,7 +32,12 @@ class Rst2XmlParser implements ParserInterface {
 
         exec(sprintf("rst2xml %s", escapeshellarg($realPath)), $outputLines, $returnStatus);
         $xml = implode($outputLines, '');
-        var_dump($returnStatus, $xml);
+
+        if ($returnStatus === 0) {
+            return $this->parseFromXml($xml);
+        } else {
+            throw new \RuntimeException(sprintf("Could not parse reST source file: %s", $realPath));
+        }
 
 
     }
@@ -48,7 +50,10 @@ class Rst2XmlParser implements ParserInterface {
         }
     }
 
+    private function parseFromXml($xml) {
+        $xmlElement = simplexml_load_string($xml);
+        var_dump($xmlElement);
+    }
+
 }
 
-$parser = new \Rst2XmlParser();
-$parser->createDocumentFromFile('../tests/sample-data/example.rst');

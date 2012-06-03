@@ -15,4 +15,4 @@ interface ParserInterface {
     public function createDocumentFromFile($filename);
 }
 
-class PhpParser implements ParserInterface {};
+// class PhpParser implements ParserInterface {};
